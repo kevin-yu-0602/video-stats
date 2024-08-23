@@ -46,7 +46,7 @@ do
     echo "$matchingDirector,$matchingFilm,\"$numFiles\",\"$ext\",\"$maxSize\",\"$i\"" >> "./$newFolder/$dataFile"
   fi
 done
-touch "$excelFile"
+touch "./$newFolder/$excelFile"
 ssconvert --import-type=Gnumeric_stf:stf_csvtab "./$newFolder/$dataFile" "./$newFolder/$excelFile"
 osascript -e 'tell application "Terminal" to quit' &
 exit
