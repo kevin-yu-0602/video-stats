@@ -35,9 +35,15 @@ do
   maxSize="${array[@]:(-1)}"
 
   # 1936 费尔南多·索拉纳斯 Fernando E. Solanas 阿根廷 2020 / 1970 太阳神 Baal 6.4 @Eng B10 C10 G10 L10 ASDJ  Additional: numFiles ext maxSize <original>
-  #   1          2                   3             4     5     1    2     3    4   5    6   7   8   9   10                  16    17   18        19
- 
-  matchingDirector=$(echo "$directorPart" | perl -C63 -ne "print if s/([0-9]{4}) *([\p{Han}\p{Punct}A-Z0-9]*[\p{Han}\p{Punct}]+)? *([^\/\p{Han}]+(?<! ))? *([\p{Han}]+) *([0-9]{4})?/\"\4\",\"\2\",\"\3\",\"\1\",\"\5\"/")
+  #   1          2                   3        4     5      1    2     3    4   5    6   7   8   9   10                  16    17   18        19
+
+
+  if [[ "$directorPart" == "無導演" ]] || [[ "$directorPart" == "无导演" ]]; then
+    matchingDirector="\"\",\"\",\"\",\"\",\"\""
+  else
+    matchingDirector=$(echo "$directorPart" | perl -C63 -ne "print if s/([0-9]{4}) *([\p{Han}\p{Punct}A-Z0-9]*[\p{Han}\p{Punct}]+)? *([^\/\p{Han}]+(?<! ))? *([\p{Han}]+) *([0-9]{4})?/\"\4\",\"\2\",\"\3\",\"\1\",\"\5\"/")
+  fi
+
   matchingFilm=$(echo "$filmPart" | perl -C63 -ne "print if s/(?<year>[0-9]{4}) *(?<chName>[\p{Han}\p{Punct}A-Z0-9]*[\p{Han}\p{Punct}]+)? *(?<engName>(?:(?"'!'" [0-9]\.[0-9])[^\/\p{Han}])+)? *(?<rating>[0-9]\.[0-9])? *(?<at>\@\w+)? *(?<b>B\d{1,3})? *(?<c>C\d{1,3})? *(?<g>G\d{1,3})? *(?<l>L\d{1,3})? *(?<notes>.*)$/\"$+{year}\",\"$+{chName}\",\"$+{engName}\",\"$+{rating}\",\"$+{at}\",\"$+{b}\",\"$+{c}\",\"$+{g}\",\"$+{l}\",\"$+{notes}\"/")
 
   if [[ -z "$matchingFilm" ]] || [[ -z "$matchingDirector" ]]; then
