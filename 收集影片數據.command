@@ -28,6 +28,7 @@ while read -r i
 do
   # .../directorPart/filmPart/count/ext/size
   read -ra array <<< "$i"
+  directorPartMinusOne="${array[@]: -6: 1}"
   directorPart="${array[@]: -5: 1}"
   filmPart="${array[@]: -4: 1}"
   numFiles="${array[@]: -3: 1}"
@@ -38,7 +39,7 @@ do
   #   1          2                   3        4     5      1    2     3    4   5    6   7   8   9   10                  16    17   18        19
 
 
-  if [[ "$directorPart" == "無導演" ]] || [[ "$directorPart" == "无导演" ]]; then
+  if [[ "$directorPart" == "無導演" ]] || [[ "$directorPart" == "无导演" ]] || [[ "$directorPartMinusOne" == "無導演" ]] || [[ "$directorPartMinusOne" == "无导演" ]]; then
     matchingDirector=$(echo "$filmPart" | perl -C63 -ne "print if s/(?<year>[0-9]{4}) *(?<chName>[\p{Han}\p{Punct}A-Z0-9]*[\p{Han}\p{Punct}]+)? *(?<engName>(?:(?"'!'" [0-9]\.[0-9])[^\/\p{Han}])+)? *(?<country>[\p{Han}]+)? *(?<rating>[0-9]\.[0-9])? *(?<at>\@\w+)? *(?<b>B\d{1,3})? *(?<c>C\d{1,3})? *(?<g>G\d{1,3})? *(?<l>L\d{1,3})? *(?<notes>.*)$/\"$+{country}\",\"\",\"\",\"\",\"\"/")
     matchingFilm=$(echo "$filmPart" | perl -C63 -ne "print if s/(?<year>[0-9]{4}) *(?<chName>[\p{Han}\p{Punct}A-Z0-9]*[\p{Han}\p{Punct}]+)? *(?<engName>(?:(?"'!'" [0-9]\.[0-9])[^\/\p{Han}])+)? *(?<country>[\p{Han}]+)? *(?<rating>[0-9]\.[0-9])? *(?<at>\@\w+)? *(?<b>B\d{1,3})? *(?<c>C\d{1,3})? *(?<g>G\d{1,3})? *(?<l>L\d{1,3})? *(?<notes>.*)$/\"$+{year}\",\"$+{chName}\",\"$+{engName}\",\"$+{rating}\",\"$+{at}\",\"$+{b}\",\"$+{c}\",\"$+{g}\",\"$+{l}\",\"$+{notes}\"/")
   else
