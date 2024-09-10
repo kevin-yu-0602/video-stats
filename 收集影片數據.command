@@ -20,7 +20,7 @@ if ! mkdir "$newFolder"; then
   done
 fi
 
-echo "Country,Director Chinese Name,Director English Name,Birth Year,Death Year,Film Year,Film Chinese Name,Film English Name,Rating,@,B,C,G,L,E,S,H,J,Notes,Num Files,Max Size File Extension,Max Size(bytes),Original File" >> "./$newFolder/$dataFile"
+echo "Country,Director Chinese Name,Director English Name,Birth Year,Death Year,Film Year,Film Chinese Name,Film English Name,Rating,@,B,C,G,L,E,S,H,J,Notes,Num Files,Max Size File Extension,Max Size(GB),Original File" >> "./$newFolder/$dataFile"
 
 IFS="/"
 gfind "${outputFileName}" -not -path '*/.*' '(' -name *.avi -o -name *.mov -o -name *.rmvb -o -name *.mkv -o -name *.flv -o -name *.webm -o -name *.m2ts -o -name *.m2v -o -name *.viv -o -name *.avchd -o -name *.m2t -o -name *.mk2v -o -name *.vob -o -name *.ogv -o -name *.ogg -o -name *.mng -o -name *.qt -o -name *.wmv -o -name *.yuv -o -name *.rm -o -name *.asf -o -name *.amv -o -name *.mp4 -o -name *.m4p -o -name *.m4v -o -name *.mpg -o -name *.mp2 -o -name *.mpeg -o -name *.mpe -o -name *.mpv -o -name *.m4v -o -name *.svi -o -name *.3gp -o -name *.3g2 -o -name *.mxf -o -name *.roq -o -name *.nsv -o -name *.f4v -o -name *.f4p -o -name *.f4a -o -name *.f4b ')' -type f -exec zsh -c 'echo -n "${0##*.}"' {} \; -printf ' %s %h\n' | sort -k3 -k2,2gr | uniq -f3 -c | sed -E 's/^ *([0-9]+) ([[:alnum:]]+) ([0-9]+) (.+)/\4\/\1\/\2\/\3/' | \
@@ -34,6 +34,7 @@ do
   numFiles="${array[@]: -3: 1}"
   ext="${array[@]: -2: 1}"
   maxSize="${array[@]:(-1)}"
+  maxSize=$(echo "scale=3; $maxSize/1024/1024" | bc -l)
 
   # 1936 费尔南多·索拉纳斯 Fernando E. Solanas 阿根廷 2020 / 1970 太阳神 Baal 6.4 @Eng B10 C10 G10 L10 E10 S10 H10 J10 ASDJ  Additional: numFiles ext maxSize <original>
   #   1          2                   3        4     5      1    2     3    4   5    6   7   8   9   10 11  12  13  14                  16     17   18        19
