@@ -34,7 +34,7 @@ do
   numFiles="${array[@]: -3: 1}"
   ext="${array[@]: -2: 1}"
   maxSize="${array[@]:(-1)}"
-  maxSize=$(echo "scale=3; $maxSize/1024/1024" | bc -l)
+  maxSize=$(echo "scale=3; $maxSize/1073741824" | bc -l)
 
   # 1936 费尔南多·索拉纳斯 Fernando E. Solanas 阿根廷 2020 / 1970 太阳神 Baal 6.4 @Eng B10 C10 G10 L10 E10 S10 H10 J10 ASDJ  Additional: numFiles ext maxSize <original>
   #   1          2                   3        4     5      1    2     3    4   5    6   7   8   9   10 11  12  13  14                  16     17   18        19
