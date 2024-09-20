@@ -1,6 +1,12 @@
 cd -- "$(dirname "$BASH_SOURCE")"
 source ./shared.sh
 
+# Remove eventually
+chmod +x ./createPreset.command
+chmod +x ./selectPreset.command
+chmod +x ./shared.sh
+chmod +x ./主頁面.command
+
 outputFileName=$(zenity  --file-selection --directory)
 dataFile="data.csv"
 excelFile="data.xlsx"
