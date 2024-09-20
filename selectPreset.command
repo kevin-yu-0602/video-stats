@@ -22,11 +22,10 @@ excelFile="data.xlsx"
 initializeCsv "$newFolder" "$dataFile"
 
 IFS="|"
-cat "$presetFile"
 presetContents=$(cat "$presetFile")
 read -ra dirs <<< "$presetContents"
 
-for d in $dirs; do
+for d in "${dirs[@]:-1}"; do
   appendToCsv "$newFolder" "$dataFile" "$d"
 done
 
