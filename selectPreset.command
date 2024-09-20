@@ -25,7 +25,7 @@ IFS="|"
 presetContents=$(cat "$presetFile")
 read -ra dirs <<< "$presetContents"
 
-for d in "${dirs[@]:-1}"; do
+for d in "${dirs[@]}"; do
   appendToCsv "$newFolder" "$dataFile" "$d"
 done
 
