@@ -9,7 +9,7 @@ if [ -z "$presetFile" ]; then
 fi
 
 if [ "${presetFile: -3}" != ".yu" ]; then
-  zenity --text="Please select a .yu file." --error --no-wrap
+  zenity --text="請選擇.yu格式的檔案." --error --no-wrap
   osascript -e 'tell application "Terminal" to quit' &
   exit
 fi

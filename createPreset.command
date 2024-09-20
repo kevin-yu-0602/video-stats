@@ -6,7 +6,7 @@ if [ -z "$presetSelection" ]; then
   exit
 fi
 mkdir presets
-fileName=$(zenity --entry --title="Preset Name" --text="Enter the name of the preset:")
+fileName=$(zenity --entry --title="輸入預設名稱" --text="請輸入預設名稱:")
 if [ -z "$fileName" ]; then
   osascript -e 'tell application "Terminal" to quit' &
   exit
