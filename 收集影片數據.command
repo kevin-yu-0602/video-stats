@@ -1,24 +1,16 @@
 cd -- "$(dirname "$BASH_SOURCE")"
+source ./shared.sh
 
 outputFileName=$(zenity  --file-selection --directory)
-unprocessedFileName="unprocessed.txt"
 dataFile="data.csv"
 excelFile="data.xlsx"
 if [ -z "$outputFileName" ]; then
-  exit 1
+  osascript -e 'tell application "Terminal" to quit' &
+  exit
 fi
 
-newFolder=$(baseName "$outputFileName")_data
-if ! mkdir "$newFolder"; then  
-  baseName="$newFolder"
-  n=1
-  newFolder="$baseName-$n"
-  while ! mkdir "$newFolder"
-  do
-    n=$((n+1))
-    newFolder="$baseName-$n"
-  done
-fi
+premadeDir =$(baseName "$outputFileName")_data
+newFolder=$(createDataDirectory $premadeDir)
 
 echo "Country,Director Chinese Name,Director English Name,Birth Year,Death Year,Film Year,Film Chinese Name,Film English Name,Rating,@,B,C,G,L,E,S,H,J,Notes,Num Files,Max Size File Extension,Max Size(GB),Original File" >> "./$newFolder/$dataFile"
 
@@ -49,7 +41,7 @@ do
   fi
 
   if [[ -z "$matchingFilm" ]] || [[ -z "$matchingDirector" ]]; then
-    echo "$i" >> "./$newFolder/$unprocessedFileName"
+    echo "$i" >> "./$newFolder/unprocessed.txt
   else
     echo "$matchingDirector,$matchingFilm,\"$numFiles\",\"$ext\",\"$maxSize\",\"$i\"" >> "./$newFolder/$dataFile"
   fi
