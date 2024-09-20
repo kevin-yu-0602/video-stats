@@ -22,5 +22,4 @@ appendToCsv "$newFolder" "$dataFile" "$outputFileName"
 
 convertToExcel "$newFolder" "$dataFile" "$excelFile"
 
-osascript -e 'tell application "Terminal" to quit' &
-exit
+osascript -e 'tell application "Terminal" to quit' & exit
