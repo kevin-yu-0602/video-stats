@@ -1,67 +1,34 @@
 cd -- "$(dirname "$BASH_SOURCE")"
+source ./shared.sh
 
-quitApp () {
+presetFile=$(zenity --file-selection --filename="$(pwd)/presets/" --file-filter="*.yu")
+
+if [ -z "$presetFile" ]; then
   osascript -e 'tell application "Terminal" to quit' &
   exit
-}
+fi
 
-selectNewDir () {
-  newSelection=$(zenity --file-selection --directory)
-  if [ -z "$newSelection" ]; then
-    quitApp
-  fi
-  echo "$newSelection"
-}
+if [ "${presetFile: -3}" != ".yu" ]; then
+  zenity --text="請選擇.yu格式的檔案." --error --no-wrap
+  osascript -e 'tell application "Terminal" to quit' &
+  exit
+fi
 
-convertToNewLines () {
-  print -r -- ${1:gs/|/\n}
-}
+premadeDir=$(baseName "$presetFile")_data
+newFolder=$(createDataDirectory $premadeDir)
+dataFile="data.csv"
+excelFile="data.xlsx"
 
-presetSelection=""
-first=true
-while true; do
+initializeCsv "$newFolder" "$dataFile"
 
-  if [ "$first" = true ]; then
-    presetSelection="$(selectNewDir)"
-    first=false
-  else
-    presetSelection="${presetSelection}|$(selectNewDir)"
-  fi
+IFS="|"
+presetContents=$(cat "$presetFile")
+read -ra dirs <<< "$presetContents"
 
-  # convertToNewLines "$presetSelection"
-  confirmationSelection=`zenity --question \
-  --title="請選擇" \
-  --text="\`printf "已選擇：\n $(echo "${presetSelection//|/\n}")"\`" \
-  --extra-button="追加" \
-  --extra-button="完成" \
-  --extra-button="取消" \
-  --no-wrap \
-  --switch`
-
-  if [ "$confirmationSelection" = "完成" ]; then
-    break
-  elif [ "$confirmationSelection" = "取消" ]; then
-    quitApp
-  fi
+for d in "${dirs[@]}"; do
+  appendToCsv "$newFolder" "$dataFile" "$d"
 done
 
-mkdir presets
-fileName=$(zenity --entry --title="輸入預設名稱" --text="請輸入預設名稱:")
-if [ -z "$fileName" ]; then
-  quitApp
-fi
-fileName="presets/${fileName}"
-if [ -f "${fileName}.yu" ]; then
-  baseName="$fileName"
-  echo $fileName
-  n=1
-  fileName="$baseName-$n"
-  while [ -f "${fileName}.yu" ]
-  do
-    n=$((n+1))
-    echo there
-    fileName="$baseName-$n"
-  done
-fi
-echo $presetSelection > "${fileName}.yu"
-quitApp
+convertToExcel "$newFolder" "$dataFile" "$excelFile"
+osascript -e 'tell application "Terminal" to quit' &
+exit
