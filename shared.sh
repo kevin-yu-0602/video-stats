@@ -38,7 +38,7 @@ appendToCsv () {
     #   1          2                   3        4     5      1    2     3    4   5    6   7   8   9   10 11  12  13  14                  16     17   18        19
 
 
-    if [[ "$directorPart" == "無導演" ]] || [[ "$directorPart" == "无导演" ]] || [[ "$directorPartMinusOne" == "無導演" ]] || [[ "$directorPartMinusOne" == "无导演" ]]; then
+    if [[ "$directorPart" =~ 無導演|无导演|Movie|movie ]] || [[ "$directorPartMinusOne" =~ 無導演|无导演|Movie|movie ]]; then
       matchingDirector=$(echo "$filmPart" | perl -C63 -ne "print if s/(?<year>[0-9]{4}) *(?<chName>[\p{Han}\p{Punct}A-Z0-9]*\p{Han}[\p{Han}\p{Punct}A-Z0-9]*)? *(?<engName>(?:(?"'!'" [0-9]\.[0-9])[^\/\p{Han}])+)? *(?<country>[\p{Han}]+)? *(?<rating>[0-9]\.[0-9])? *(?<at>\@[^\s]+)? *(?<b>B[^\s]{1,5})? *(?<c>C[^\s]{1,5})? *(?<g>G[^\s]{1,5})? *(?<l>L[^\s]{1,5})? *(?<e>E[^\s]{1,5})? *(?<s>S[^\s]{1,5})? *(?<h>H[^\s]{1,5})? *(?<j>J[0-9]{1,5})? *(?<notes>.*)$/\"$+{country}\",\"\",\"\",\"\",\"\"/")
       matchingFilm=$(echo "$filmPart" | perl -C63 -ne "print if s/(?<year>[0-9]{4}) *(?<chName>[\p{Han}\p{Punct}A-Z0-9]*\p{Han}[\p{Han}\p{Punct}A-Z0-9]*)? *(?<engName>(?:(?"'!'" [0-9]\.[0-9])[^\/\p{Han}])+)? *(?<country>[\p{Han}]+)? *(?<rating>[0-9]\.[0-9])? *(?<at>\@[^\s]+)? *(?<b>B[^\s]{1,5})? *(?<c>C[^\s]{1,5})? *(?<g>G[^\s]{1,5})? *(?<l>L[^\s]{1,5})? *(?<e>E[^\s]{1,5})? *(?<s>S[^\s]{1,5})? *(?<h>H[^\s]{1,5})? *(?<j>J[0-9]{1,5})? *(?<notes>.*)$/\"$+{year}\",\"$+{chName}\",\"$+{engName}\",\"$+{rating}\",\"$+{at}\",\"$+{b}\",\"$+{c}\",\"$+{g}\",\"$+{l}\",\"$+{e}\",\"$+{s}\",\"$+{h}\",\"$+{j}\",\"$+{notes}\"/")
     else
