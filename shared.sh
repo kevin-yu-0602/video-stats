@@ -15,7 +15,7 @@ createDataDirectory () {
 
 # arg 1 is directory 2 is data file
 initializeCsv () {
-  echo "Country,Director Chinese Name,Director English Name,Birth Year,Death Year,Film Year,Film Chinese Name,Film English Name,Rating,@,B,C,G,L,E,S,H,J,Notes,Num Files,Max Size File Extension,Max Size(GB),Original File" >> "./$1/$2"
+  echo "Country,Director Chinese Name,Director English Name,Birth Year,Death Year,Film Year,Film Chinese Name,Film English Name,Rating,@,B:Berlin,C:Cannes,G:Oscar,L:Venice,E:Europe,S:César,H:Horse,J:Japan,Notes,Num Files,Max Size File Extension,Max Size(GB),Original File" >> "./$1/$2"
 }
 
 # arg 1 is directory (newFolder) 2 is data file (dataFile) 3 is selected directory
