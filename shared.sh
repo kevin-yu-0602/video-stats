@@ -15,7 +15,7 @@ createDataDirectory () {
 
 # arg 1 is directory 2 is data file
 initializeCsv () {
-  echo "Country,Director Chinese Name,Director English Name,Birth Year,Death Year,Film Year,Film Chinese Name,Film English Name,Rating,@,B:Berlin,C:Cannes,G:Oscar,L:Venice,E:Europe,S:César,H:Horse,J:Japan,Notes,Num Files,Max Size File Extension,Max Size(GB),Original File" >> "./$1/$2"
+  echo "Country,Director Chinese Name,Director English Name,Birth Year,Death Year,Film Year,Film Chinese Name,Film English Name,Rating,@,B:Berlin,C:Cannes,G:Oscar,L:Venice,E:Europe,S:César,H:Horse,J1:Japan1,J2:Japan2,Notes,Num Files,Max Size File Extension,Max Size(GB),Original File" >> "./$1/$2"
 }
 
 # arg 1 is directory (newFolder) 2 is data file (dataFile) 3 is selected directory
@@ -34,16 +34,16 @@ appendToCsv () {
     maxSize="${array[@]:(-1)}"
     maxSize=$(echo "scale=3; $maxSize/1000000000" | bc -l)
 
-    # 1936 费尔南多·索拉纳斯 Fernando E. Solanas 阿根廷 2020 / 1970 太阳神 Baal 6.4 @Eng B10 C10 G10 L10 E10 S10 H10 J10 ASDJ  Additional: numFiles ext maxSize <original>
-    #   1          2                   3        4     5      1    2     3    4   5    6   7   8   9   10 11  12  13  14                  16     17   18        19
+    # 1936 费尔南多·索拉纳斯 Fernando E. Solanas 阿根廷 2020 / 1970 太阳神 Baal 6.4 @Eng B10 C10 G10 L10 E10 S10 H10 J10 J9999 ASDJ  Additional: numFiles ext maxSize <original>
+    #   1          2                   3        4     5      1    2     3    4   5    6   7   8   9   10 11  12  13  14     15                16     17   18        19
 
 
     if [[ "$directorPart" =~ 無導演|无导演|Movie|movie ]] || [[ "$directorPartMinusOne" =~ 無導演|无导演|Movie|movie ]]; then
-      matchingDirector=$(echo "$filmPart" | perl -C63 -ne "print if s/(?<year>[0-9]{4}) *(?<chName>[\p{Han}\p{Punct}A-Z0-9\x{200B}]*\p{Han}[\p{Han}\p{Punct}A-Z0-9\x{200B}]*)? *(?<engName>(?:(?"'!'" [0-9]\.[0-9])[^\/\p{Han}])+)? *(?<country>[\p{Han}]+)? *(?<rating>[0-9]\.[0-9])? *(?<at>\@[^\s]+)? *(?<b>B[^\s]{1,5})? *(?<c>C[^\s]{1,5})? *(?<g>G[^\s]{1,5})? *(?<l>L[^\s]{1,5})? *(?<e>E[^\s]{1,5})? *(?<s>S[^\s]{1,5})? *(?<h>H[^\s]{1,5})? *(?<j>J[0-9]{1,5})? *(?<notes>.*)$/\"$+{country}\",\"\",\"\",\"\",\"\"/")
-      matchingFilm=$(echo "$filmPart" | perl -C63 -ne "print if s/(?<year>[0-9]{4}) *(?<chName>[\p{Han}\p{Punct}A-Z0-9\x{200B}]*\p{Han}[\p{Han}\p{Punct}A-Z0-9\x{200B}]*)? *(?<engName>(?:(?"'!'" [0-9]\.[0-9])[^\/\p{Han}])+)? *(?<country>[\p{Han}]+)? *(?<rating>[0-9]\.[0-9])? *(?<at>\@[^\s]+)? *(?<b>B[^\s]{1,5})? *(?<c>C[^\s]{1,5})? *(?<g>G[^\s]{1,5})? *(?<l>L[^\s]{1,5})? *(?<e>E[^\s]{1,5})? *(?<s>S[^\s]{1,5})? *(?<h>H[^\s]{1,5})? *(?<j>J[0-9]{1,5})? *(?<notes>.*)$/\"$+{year}\",\"$+{chName}\",\"$+{engName}\",\"$+{rating}\",\"$+{at}\",\"$+{b}\",\"$+{c}\",\"$+{g}\",\"$+{l}\",\"$+{e}\",\"$+{s}\",\"$+{h}\",\"$+{j}\",\"$+{notes}\"/")
+      matchingDirector=$(echo "$filmPart" | perl -C63 -ne "print if s/(?<year>[0-9]{4}) *(?<chName>[\p{Han}\p{Punct}A-Z0-9\x{200B}]*\p{Han}[\p{Han}\p{Punct}A-Z0-9\x{200B}]*)? *(?<engName>(?:(?"'!'" [0-9]\.[0-9])[^\/\p{Han}])+)? *(?<country>[\p{Han}]+)? *(?<rating>[0-9]\.[0-9])? *(?<at>\@[^\s]+)? *(?<b>B[^\s]{1,5})? *(?<c>C[^\s]{1,5})? *(?<g>G[^\s]{1,5})? *(?<l>L[^\s]{1,5})? *(?<e>E[^\s]{1,5})? *(?<s>S[^\s]{1,5})? *(?<h>H[^\s]{1,5})? *(?<j1>J[0-9]{1,2})? *(?<j2>J[0-9]{3,5})? *(?<notes>.*)$/\"$+{country}\",\"\",\"\",\"\",\"\"/")
+      matchingFilm=$(echo "$filmPart" | perl -C63 -ne "print if s/(?<year>[0-9]{4}) *(?<chName>[\p{Han}\p{Punct}A-Z0-9\x{200B}]*\p{Han}[\p{Han}\p{Punct}A-Z0-9\x{200B}]*)? *(?<engName>(?:(?"'!'" [0-9]\.[0-9])[^\/\p{Han}])+)? *(?<country>[\p{Han}]+)? *(?<rating>[0-9]\.[0-9])? *(?<at>\@[^\s]+)? *(?<b>B[^\s]{1,5})? *(?<c>C[^\s]{1,5})? *(?<g>G[^\s]{1,5})? *(?<l>L[^\s]{1,5})? *(?<e>E[^\s]{1,5})? *(?<s>S[^\s]{1,5})? *(?<h>H[^\s]{1,5})? *(?<j1>J[0-9]{1,2})? *(?<j2>J[0-9]{3,5})? *(?<notes>.*)$/\"$+{year}\",\"$+{chName}\",\"$+{engName}\",\"$+{rating}\",\"$+{at}\",\"$+{b}\",\"$+{c}\",\"$+{g}\",\"$+{l}\",\"$+{e}\",\"$+{s}\",\"$+{h}\",\"$+{j1}\",\"$+{j2}\",\"$+{notes}\"/")
     else
       matchingDirector=$(echo "$directorPart" | perl -C63 -ne "print if s/([0-9]{4}) *([\p{Han}\p{Punct}A-Z0-9]*[\p{Han}\p{Punct}]+)? *([^\/\p{Han}]+(?<! ))? *([\p{Han}]+) *([0-9]{4})?/\"\4\",\"\2\",\"\3\",\"\1\",\"\5\"/")
-      matchingFilm=$(echo "$filmPart" | perl -C63 -ne "print if s/(?<year>[0-9]{4}) *(?<chName>[\p{Han}\p{Punct}A-Z0-9\x{200B}]*\p{Han}[\p{Han}\p{Punct}A-Z0-9\x{200B}]*)? *(?<engName>(?:(?"'!'" [0-9]\.[0-9])[^\/\p{Han}])+)? *(?<rating>[0-9]\.[0-9])? *(?<at>\@[^\s]+)? *(?<b>B[^\s]{1,5})? *(?<c>C[^\s]{1,5})? *(?<g>G[^\s]{1,5})? *(?<l>L[^\s]{1,5})? *(?<e>E[^\s]{1,5})? *(?<s>S[^\s]{1,5})? *(?<h>H[^\s]{1,5})? *(?<j>J[0-9]{1,5})? *(?<notes>.*)$/\"$+{year}\",\"$+{chName}\",\"$+{engName}\",\"$+{rating}\",\"$+{at}\",\"$+{b}\",\"$+{c}\",\"$+{g}\",\"$+{l}\",\"$+{e}\",\"$+{s}\",\"$+{h}\",\"$+{j}\",\"$+{notes}\"/")
+      matchingFilm=$(echo "$filmPart" | perl -C63 -ne "print if s/(?<year>[0-9]{4}) *(?<chName>[\p{Han}\p{Punct}A-Z0-9\x{200B}]*\p{Han}[\p{Han}\p{Punct}A-Z0-9\x{200B}]*)? *(?<engName>(?:(?"'!'" [0-9]\.[0-9])[^\/\p{Han}])+)? *(?<rating>[0-9]\.[0-9])? *(?<at>\@[^\s]+)? *(?<b>B[^\s]{1,5})? *(?<c>C[^\s]{1,5})? *(?<g>G[^\s]{1,5})? *(?<l>L[^\s]{1,5})? *(?<e>E[^\s]{1,5})? *(?<s>S[^\s]{1,5})? *(?<h>H[^\s]{1,5})? *(?<j1>J[0-9]{1,2})? *(?<j2>J[0-9]{3,5})? *(?<notes>.*)$/\"$+{year}\",\"$+{chName}\",\"$+{engName}\",\"$+{rating}\",\"$+{at}\",\"$+{b}\",\"$+{c}\",\"$+{g}\",\"$+{l}\",\"$+{e}\",\"$+{s}\",\"$+{h}\",\"$+{j1}\",\"$+{j2}\",\"$+{notes}\"/")
     fi
 
     if [[ -z "$matchingFilm" ]] || [[ -z "$matchingDirector" ]]; then
